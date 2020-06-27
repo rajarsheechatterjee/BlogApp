@@ -136,7 +136,7 @@ app.get("/posts/new", isloggedin,function(req, res){
 //========================================================== CREATE ROUTE ===================================================================
 
 app.post("/posts", function(req, res){
-    connection.query('INSERT INTO posts SET ?', req.body.posts, function(err, result){
+    connection.query("INSERT INTO posts( title, image, body, user_id ) VALUES(?,?,?,?)", [req.body.posts.title, req.posts.image, req.body.posts.body, req.user.id], function(err, result){
         if(err) throw err;
         res.redirect("/");
     });
