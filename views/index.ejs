@@ -1,0 +1,33 @@
+<%- include("partials/header") %>
+
+<div class="ui main text container">
+    <div class="ui huge header">Explore</div>
+    <div class="ui top attached segment">
+        <div class="ui divided items">
+            <% result.forEach(function(post){ %>
+                <div class="item">
+                    <div class="image">
+                        <img src="<%= post.image %>">
+                    </div>
+                    <div class="content">
+                        <a class="header" href="/posts/<%= post.id %>"><%= post.title %></a>
+                        <div class="meta">
+                            <span><%= post.created_at.toDateString() %></span>
+                        </div>
+                        <div class="description">
+                            <p><%= post.body.substring(0, 100) %>...</p>
+                        </div>
+                        <div class="extra">
+                            <a class="ui floated basic violet button" href="/posts/<%= post.id %>">
+                                Read More
+                                <i class="right chevron icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<%- include("partials/footer") %>

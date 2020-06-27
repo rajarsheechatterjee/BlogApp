@@ -1,0 +1,12 @@
+.container.main {
+    margin-top: 7.0em;
+}
+
+#delete {
+    display: inline;
+}
+
+.column {
+    max-width: 450px;
+    margin-top: 10%;
+}

@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Twitter</title>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+        <link rel="stylesheet" href="/stylesheets/app.css">
+        <!-- <link href='https://css.gg/code.css' rel='stylesheet'> -->
+        <!-- <i style="margin-right: 15px;" class="gg-code"></i> -->
+    </head>
+    <body>
+        <div class="ui fixed inverted menu">   
+            <div class="ui container">
+                <!-- <div class="header item"><i class="code icon"></i>Blog Site</div> -->
+                <div class="header item">Twitter</div>
+                <a href="/" class="item">Home</a>
+                <a href="/posts/new" class="item">New Tweet</a>
+                <div class="right menu">
+                    <% if(!currentUser){ %>
+                    <a class="ui item" href="/login">
+                        Login
+                    </a>
+                    <a class="ui item" href="/register">
+                        Register
+                    </a>
+                    <% } else { %>
+                        <div class="ui item">Signed in as <%= currentUser.username %></div>
+                        <a class="ui item" href="/logout">
+                            Logout
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
