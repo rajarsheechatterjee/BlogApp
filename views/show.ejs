@@ -12,14 +12,14 @@
                 <p>
                     <%= post.body %>
                     <br>
-                    <em>By</em>
+                    <em>By <%= post.username %></em>
                 </p>
             </div>
             <% if(currentUser){ %>
                 <% if( post.user_id == currentUser.id ) { %>
-                    <a class="ui inverted orange button" href="/posts/<%= post.id %>/edit">Edit Blog</a>
+                    <a class="ui inverted tiny orange button" href="/posts/<%= post.id %>/edit">Edit Blog</a>
                     <form id="delete" action="/posts/<%= post.id %>?_method=DELETE" method="POST">
-                        <button class="ui mini red basic button">Delete</button>
+                        <button class="ui inverted tiny red button">Delete</button>
                     </form>
                 <% } %>
             <% } %>

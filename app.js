@@ -146,7 +146,7 @@ app.post("/posts", isloggedin,function(req, res){
 
 app.get("/posts/:id", function(req, res) {
 
-    const q = "SELECT * FROM posts WHERE id = '" + req.params.id + "';";
+    const q = "SELECT users.id, users.username, posts.title, posts.image, posts.body, posts.user_id, posts.created_at FROM users JOIN posts ON users.id = posts.user_id WHERE posts.id = '" + req.params.id + "';";
     connection.query(q, function(err, post) {
         if (err) throw err;
         res.render("show", { post: post[0] });
