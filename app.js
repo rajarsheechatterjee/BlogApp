@@ -200,7 +200,7 @@ app.put("/posts/:id", isloggedin, function(req, res) {
 //=========================================================== DELETE ROUTE ===================================================================
 
 app.delete("/posts/:id", function(req, res){
-    connection.query("DELETE FROM posts Where id = " + req.params.id, function(err, posts, fields) {
+    connection.query("DELETE FROM comments WHERE post_id = '" + req.params.id + "';DELETE FROM posts WHERE id = '" + req.params.id + "';", function(err, posts, fields) {
         if(err) throw err;
         res.redirect("/posts");
     });
@@ -210,7 +210,7 @@ app.delete("/posts/:id", function(req, res){
 
 app.delete("/posts/:id/:commentId", function(req, res){
     
-    connection.query("DELETE FROM comments Where id = " + req.params.commentId, function(err, posts, fields) {
+    connection.query("DELETE FROM comments WHERE id = " + req.params.commentId, function(err, posts, fields) {
         if(err) throw err;
         res.redirect("/posts/" + req.params.id);
     });
