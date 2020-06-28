@@ -15,16 +15,45 @@
                     <em>By <%= post.username %></em>
                 </p>
             </div>
-            <% if(currentUser){ %>
-                <% if( post.user_id == currentUser.id ) { %>
-                    <a class="ui inverted tiny orange button" href="/posts/<%= post.id %>/edit">Edit Blog</a>
-                    <form id="delete" action="/posts/<%= post.id %>?_method=DELETE" method="POST">
-                        <button class="ui inverted tiny red button">Delete</button>
-                    </form>
-                <% } %>
+            <% if( currentUser && post.user_id == currentUser.id ) { %>
+                <a class="ui inverted mini orange button" href="/posts/<%= post.id %>/edit">Edit</a>
+                <form id="delete" action="/posts/<%= post.id %>?_method=DELETE" method="POST">
+                    <button class="ui inverted mini red button">Delete</button>
+                </form>
             <% } %>
         </div>
     </div>
+    <div class="ui comments">
+        <h3 class="ui dividing header">Comments</h3>
+        <% comments.forEach(function(comment){ %>
+        <div class="comment">
+          <div class="content">
+            <a class="author"><%= comment.username %></a>
+            <div class="metadata">
+              <span class="date">Today at <%= comment.created_at.toTimeString().substring(0,8) %></span>
+            </div>
+            <div class="text">
+                <%= comment.body %>
+                <div>
+                    <% if( currentUser && comment.user_id == currentUser.id ) { %>
+                        <form id="delete" action="/posts/<%= post.id %>/<%= comment.id %>?_method=DELETE" method="POST">
+                            <button class="ui inverted mini red button">Delete</button>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+        <% if(currentUser){ %>
+        <form class="ui reply form" action="/posts/<%= post.id %>" method="POST">
+          <div class="field">
+            <textarea name="comment[body]"></textarea>
+          </div>
+          <button type="submit" class="ui secondary button">Post Comment</button>
+        </form>
+        <% } %>
+      </div>
 </div>
  
 <%- include("partials/footer") %>

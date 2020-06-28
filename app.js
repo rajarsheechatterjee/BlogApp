@@ -142,14 +142,27 @@ app.post("/posts", isloggedin,function(req, res){
     });
 });
 
+//========================================================== COMMENT ROUTE ===================================================================
+
+app.post("/posts/:id", isloggedin, function(req, res) {
+    const post_id = req.params.id;
+    connection.query("INSERT INTO comments(body,post_id,user_id) VALUES(?,?,?);", [req.body.comment.body, post_id, req.user.id], function(error, comment, fields) {
+        if (error) throw error;
+        res.redirect("/posts/" + post_id);
+    });
+});
+
+
+
 //=========================================================== SHOW ROUTE ===================================================================
 
 app.get("/posts/:id", function(req, res) {
 
     const q = "SELECT users.id, users.username, posts.title, posts.image, posts.body, posts.user_id, posts.created_at FROM users JOIN posts ON users.id = posts.user_id WHERE posts.id = '" + req.params.id + "';";
-    connection.query(q, function(err, post) {
+    const q2 = "SELECT comments.user_id,posts.id,username,comments.id,comments.body,post_id,comments.created_at FROM comments JOIN users ON users.id = comments.user_id JOIN posts ON posts.id = comments.post_id WHERE post_id = '" + req.params.id + "';";
+    connection.query(q + q2, function(err, post) {
         if (err) throw err;
-        res.render("show", { post: post[0] });
+        res.render("show", { post: post[0][0], comments: post[1] });
     });
 });
 //=========================================================== SHOW ROUTE ===================================================================
@@ -190,6 +203,16 @@ app.delete("/posts/:id", function(req, res){
     connection.query("DELETE FROM posts Where id = " + req.params.id, function(err, posts, fields) {
         if(err) throw err;
         res.redirect("/posts");
+    });
+});
+
+//=========================================================== COMMENT DELETE ROUTE ===================================================================
+
+app.delete("/posts/:id/:commentId", function(req, res){
+    
+    connection.query("DELETE FROM comments Where id = " + req.params.commentId, function(err, posts, fields) {
+        if(err) throw err;
+        res.redirect("/posts/" + req.params.id);
     });
 });
 
