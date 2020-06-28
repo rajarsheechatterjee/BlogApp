@@ -1,24 +1,28 @@
 <%- include("partials/header") %>
 
 <div class="ui main text container segment">
-    <div class="ui huge header"><%= posts.title %></div>
+    <div class="ui huge header"><%= post.title %></div>
     <div class="ui top attached">
         <div class="item">
-            <img class="ui centered rounded image" src="<%= posts.image %>">
+            <img class="ui centered rounded image" src="<%= post.image %>">
             <div class="content">
-                <span><strong><%= posts.created_at.toDateString() %></strong></span>
+                <span><strong><%= post.created_at.toDateString() %></strong></span>
             </div>
             <div class="description">
                 <p>
-                    <%= posts.body %>
+                    <%= post.body %>
                     <br>
-                    <em>By <%= posts.username %></em>
+                    <em>By</em>
                 </p>
             </div>
-            <a class="ui mini orange basic button" href="/posts/<%= posts.id %>/edit">Edit</a>
-            <form id="delete" action="/posts/<%= posts.id %>?_method=DELETE" method="POST">
-                <button class="ui mini red basic button">Delete</button>
-            </form>
+            <% if(currentUser){ %>
+                <% if( post.user_id == currentUser.id ) { %>
+                    <a class="ui inverted orange button" href="/posts/<%= post.id %>/edit">Edit Blog</a>
+                    <form id="delete" action="/posts/<%= post.id %>?_method=DELETE" method="POST">
+                        <button class="ui mini red basic button">Delete</button>
+                    </form>
+                <% } %>
+            <% } %>
         </div>
     </div>
 </div>

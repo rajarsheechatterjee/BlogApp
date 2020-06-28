@@ -135,8 +135,8 @@ app.get("/posts/new", isloggedin,function(req, res){
 
 //========================================================== CREATE ROUTE ===================================================================
 
-app.post("/posts", function(req, res){
-    connection.query("INSERT INTO posts( title, image, body, user_id ) VALUES(?,?,?,?)", [req.body.posts.title, req.posts.image, req.body.posts.body, req.user.id], function(err, result){
+app.post("/posts", isloggedin,function(req, res){
+    connection.query('INSERT INTO posts(title,image,body,user_id) VALUES(?,?,?,?)', [req.body.post.title, req.body.post.image, req.body.post.body, req.user.id], function(err, result){
         if(err) throw err;
         res.redirect("/");
     });
@@ -144,38 +144,45 @@ app.post("/posts", function(req, res){
 
 //=========================================================== SHOW ROUTE ===================================================================
 
-app.get("/posts/:id", function(req, res){
-    var q = 'SELECT * FROM posts WHERE id = ' + req.params.id;
+app.get("/posts/:id", function(req, res) {
 
-    connection.query(q, function(err, posts){
-        if(err) throw err;
-        res.render("show", {posts: posts[0]});
+    const q = "SELECT * FROM posts WHERE id = '" + req.params.id + "';";
+    connection.query(q, function(err, post) {
+        if (err) throw err;
+        res.render("show", { post: post[0] });
+    });
+});
+//=========================================================== SHOW ROUTE ===================================================================
+
+app.get("/posts/:id/edit", isloggedin, function(req, res) {
+    var id = req.params.id;
+    var q = "SELECT * FROM posts WHERE id = '" + id + "';";
+
+    connection.query(q, function(err, posts) {
+        if (err) throw err;
+        res.render("edit", { posts: posts[0] });
     });
 });
 
-//=========================================================== EDIT ROUTE  ===================================================================
+// UPDATE ROUTE - posts
 
-app.get("/posts/:id/edit", function(req, res){
-
-    var q = "SELECT * FROM posts WHERE id = " + req.params.id;
-
-    connection.query(q, function(err, posts){
-        if(err){
-            res.redirect("/posts");
-        } else {
-            res.render("edit", {posts: posts[0]});
-        }
-    })
-});
-
-//=========================================================== UPDATE ROUTE ===================================================================
-
-app.put("/posts/:id", function(req, res){    
-    connection.query("UPDATE posts SET title = ? , image = ? , body = ? WHERE id = ? ", [req.body.posts.title, req.body.posts.image, req.body.posts.body, req.params.id], function(err, posts, fields) {
-        if(err) throw err;
+app.put("/posts/:id", isloggedin, function(req, res) {
+    var id = req.params.id;
+    connection.query("UPDATE posts SET title = ?, image = ? , body = ? WHERE id = ? ", [req.body.post.title, req.body.post.image, req.body.post.body, id], function(err, posts, fields) {
+        if (err) throw err;
         res.redirect("/posts/" + req.params.id);
     });
 });
+
+// //=========================================================== UPDATE ROUTE ===================================================================
+
+// app.put("/posts/:id", isloggedin,function(req, res){    
+//     var editPost = {title: req.body.title, body: req.body.body, id: req.params.id}
+//     connection.query("UPDATE posts SET title = ? , body = ? WHERE id = ? ", editPost, function(err, posts, fields) {
+//         if(err) throw err;
+//         res.redirect("/posts/" + req.params.id);
+//     });
+// });
 
 //=========================================================== DELETE ROUTE ===================================================================
 
