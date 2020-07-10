@@ -145,8 +145,7 @@ app.post("/posts", isloggedin,function(req, res){
 //========================================================== COMMENT ROUTE ===================================================================
 
 app.post("/posts/:id", isloggedin, function(req, res) {
-    const post_id = req.params.id;
-    connection.query("INSERT INTO comments(body,post_id,user_id) VALUES(?,?,?);", [req.body.comment.body, post_id, req.user.id], function(error, comment, fields) {
+    connection.query("INSERT INTO comments(body,post_id,user_id) VALUES(?,?,?);", [req.body.comment.body, req.params.id, req.user.id], function(error, comment, fields) {
         if (error) throw error;
         res.redirect("/posts/" + post_id);
     });
@@ -158,8 +157,8 @@ app.post("/posts/:id", isloggedin, function(req, res) {
 
 app.get("/posts/:id", function(req, res) {
 
-    const q = "SELECT users.id, users.username, posts.title, posts.image, posts.body, posts.user_id, posts.created_at FROM users JOIN posts ON users.id = posts.user_id WHERE posts.id = '" + req.params.id + "';";
-    const q2 = "SELECT comments.user_id,posts.id,username,comments.id,comments.body,post_id,comments.created_at FROM comments JOIN users ON users.id = comments.user_id JOIN posts ON posts.id = comments.post_id WHERE post_id = '" + req.params.id + "';";
+    var q = "SELECT users.id, users.username, posts.title, posts.image, posts.body, posts.user_id, posts.created_at FROM users JOIN posts ON users.id = posts.user_id WHERE posts.id = '" + req.params.id + "';";
+    var q2 = "SELECT comments.user_id,posts.id,users.username,comments.id,comments.body,post_id,comments.created_at FROM comments JOIN users ON users.id = comments.user_id JOIN posts ON posts.id = comments.post_id WHERE post_id = '" + req.params.id + "';";
     connection.query(q + q2, function(err, post) {
         if (err) throw err;
         res.render("show", { post: post[0][0], comments: post[1] });
@@ -168,8 +167,7 @@ app.get("/posts/:id", function(req, res) {
 //=========================================================== SHOW ROUTE ===================================================================
 
 app.get("/posts/:id/edit", isloggedin, function(req, res) {
-    var id = req.params.id;
-    var q = "SELECT * FROM posts WHERE id = '" + id + "';";
+    var q = "SELECT * FROM posts WHERE id = '" + req.params.id + "';";
 
     connection.query(q, function(err, posts) {
         if (err) throw err;

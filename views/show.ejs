@@ -16,7 +16,7 @@
                 </p>
             </div>
             <% if( currentUser && post.user_id == currentUser.id ) { %>
-                <a class="ui inverted mini orange button" href="/posts/<%= post.id %>/edit">Edit</a>
+                <a class="ui inverted mini orange button" href="/posts/<%= post.post.id %>/edit">Edit</a>
                 <form id="delete" action="/posts/<%= post.id %>?_method=DELETE" method="POST">
                     <button class="ui inverted mini red button">Delete</button>
                 </form>
