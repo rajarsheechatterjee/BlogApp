@@ -15,8 +15,8 @@
                     <em>By <%= post.username %></em>
                 </p>
             </div>
-            <% if( currentUser && post.user_id == currentUser.id ) { %>
-                <a class="ui inverted mini orange button" href="/posts/<%= post.post.id %>/edit">Edit</a>
+            <% if ( currentUser && currentUser.id === post.user_id ) { %>
+                <a class="ui inverted mini orange button" href="/posts/<%= post.id %>/edit">Edit</a>
                 <form id="delete" action="/posts/<%= post.id %>?_method=DELETE" method="POST">
                     <button class="ui inverted mini red button">Delete</button>
                 </form>
@@ -25,7 +25,7 @@
     </div>
     <div class="ui comments">
         <h3 class="ui dividing header">Comments</h3>
-        <% comments.forEach(function(comment){ %>
+        <% comment.forEach(function(comment){ %>
         <div class="comment">
           <div class="content">
             <a class="author"><%= comment.username %></a>

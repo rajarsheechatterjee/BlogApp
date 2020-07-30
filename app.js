@@ -147,7 +147,7 @@ app.post("/posts", isloggedin,function(req, res){
 app.post("/posts/:id", isloggedin, function(req, res) {
     connection.query("INSERT INTO comments(body,post_id,user_id) VALUES(?,?,?);", [req.body.comment.body, req.params.id, req.user.id], function(error, comment, fields) {
         if (error) throw error;
-        res.redirect("/posts/" + post_id);
+        res.redirect("/posts/" + req.params.id);
     });
 });
 
@@ -157,25 +157,25 @@ app.post("/posts/:id", isloggedin, function(req, res) {
 
 app.get("/posts/:id", function(req, res) {
 
-    var q = "SELECT users.id, users.username, posts.title, posts.image, posts.body, posts.user_id, posts.created_at FROM users JOIN posts ON users.id = posts.user_id WHERE posts.id = '" + req.params.id + "';";
-    var q2 = "SELECT comments.user_id,posts.id,users.username,comments.id,comments.body,post_id,comments.created_at FROM comments JOIN users ON users.id = comments.user_id JOIN posts ON posts.id = comments.post_id WHERE post_id = '" + req.params.id + "';";
+    const q = "SELECT users.id,posts.id,title,username,posts.user_id,image,body,posts.created_at FROM users JOIN posts ON users.id=posts.user_id WHERE posts.id = " + req.params.id + ";";
+    const q2 = "SELECT comments.user_id,posts.id,username,comments.id,comments.body,post_id,comments.created_at FROM comments JOIN users ON users.id = comments.user_id JOIN posts ON posts.id = comments.post_id WHERE post_id =" + req.params.id + ";";
     connection.query(q + q2, function(err, post) {
         if (err) throw err;
-        res.render("show", { post: post[0][0], comments: post[1] });
+        res.render("show", { post: post[0][0], comment: post[1] });
     });
 });
-//=========================================================== SHOW ROUTE ===================================================================
+//=========================================================== Edit ROUTE ===================================================================
 
 app.get("/posts/:id/edit", isloggedin, function(req, res) {
-    var q = "SELECT * FROM posts WHERE id = '" + req.params.id + "';";
+    var q = "SELECT * FROM posts WHERE id = " + req.params.id;
 
-    connection.query(q, function(err, posts) {
+    connection.query(q, function(err, post) {
         if (err) throw err;
-        res.render("edit", { posts: posts[0] });
+        res.render("edit", { post: post[0] });
     });
 });
 
-// UPDATE ROUTE - posts
+//=========================================================== UPDATE ROUTE ===================================================================
 
 app.put("/posts/:id", isloggedin, function(req, res) {
     var id = req.params.id;
@@ -184,16 +184,6 @@ app.put("/posts/:id", isloggedin, function(req, res) {
         res.redirect("/posts/" + req.params.id);
     });
 });
-
-// //=========================================================== UPDATE ROUTE ===================================================================
-
-// app.put("/posts/:id", isloggedin,function(req, res){    
-//     var editPost = {title: req.body.title, body: req.body.body, id: req.params.id}
-//     connection.query("UPDATE posts SET title = ? , body = ? WHERE id = ? ", editPost, function(err, posts, fields) {
-//         if(err) throw err;
-//         res.redirect("/posts/" + req.params.id);
-//     });
-// });
 
 //=========================================================== DELETE ROUTE ===================================================================
 
