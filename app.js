@@ -1,17 +1,19 @@
-var express          = require("express"),
-    app              = express(),
-    bodyParser       = require("body-parser"),
-    session          = require("express-session"),
-    flash            = require("connect-flash"),
-    bcrypt           = require("bcrypt-nodejs"),
-    passport         = require("passport"),
-    LocalStrategy    = require("passport-local"),
-    methodOverride   = require("method-override"),
-    mysql            = require("mysql");
+const express = require("express"),
+    app = express(),
+    bodyParser = require("body-parser"),
+    session = require("express-session"),
+    flash = require("connect-flash"),
+    bcrypt = require("bcrypt-nodejs"),
+    passport = require("passport"),
+    LocalStrategy = require("passport-local"),
+    methodOverride = require("method-override"),
+    mysql = require("mysql");
 
 
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
@@ -23,235 +25,285 @@ app.use(session({
     saveUninitialized: false
 }));
 
-var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : 'admin',
-    database : 'blogSchema',
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'admin',
+    database: 'blogSchema',
     multipleStatements: true
-  });
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(function(req, res, next){
+app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.error = req.flash('error');
     res.locals.success = req.flash('success');
     next();
 });
 
-passport.serializeUser(function(user, done){
-    done(null, user.id); 
+passport.serializeUser((user, done) => {
+    done(null, user.id);
 });
-passport.deserializeUser(function(id, done){
+passport.deserializeUser((id, done) => {
     connection.query("SELECT * FROM users WHERE id = ?", [id],
-    function(err, rows){
-        done(err, rows[0]);
-    });
+        (err, rows) => {
+            done(err, rows[0]);
+        });
 });
 
-//============================================================ PASSPORT SIGNUP =============================================================
+/**
+ * Passport Signup
+ */
 
 passport.use(
     'local-signup',
     new LocalStrategy({
-        usernameField :'username',
-        passwordField:'password',
-        passReqToCallback :true
-    },
-    function(req, username, password, done){
-        connection.query("SELECT * FROM users WHERE username = ?", [username], function(err, rows){
-            if(err)
-                return done(err);
-            if(rows.length){
-                return done(null, false, req.flash('error','That username is already taken'));
-            }else{
-                var newUserMysql = {
-                    username :username,
-                    password : bcrypt.hashSync(password, null, null)
-                };
+            usernameField: 'username',
+            passwordField: 'password',
+            passReqToCallback: true
+        },
+        (req, username, password, done) => {
+            connection.query("SELECT * FROM users WHERE username = ?", [username], (err, rows) => {
+                if (err)
+                    return done(err);
+                if (rows.length) {
+                    return done(null, false, req.flash('error', 'That username is already taken'));
+                } else {
+                    const newUserMysql = {
+                        username: username,
+                        password: bcrypt.hashSync(password, null, null)
+                    };
 
-                var insertQuery = "INSERT INTO users (username, password) VALUES (?,?)";
+                    const insertQuery = "INSERT INTO users (username, password) VALUES (?,?)";
 
-                connection.query(insertQuery, [newUserMysql.username, newUserMysql.password],
-                    function(err, rows){
-                        newUserMysql.id = rows.insertId;
+                    connection.query(insertQuery, [newUserMysql.username, newUserMysql.password],
+                        (err, rows) => {
+                            newUserMysql.id = rows.insertId;
 
-                        return done(null, newUserMysql, req.flash('success', 'Successfully Registered'));
-                    });
-            }
-        });
-    })
+                            return done(null, newUserMysql, req.flash('success', 'Successfully Registered'));
+                        });
+                }
+            });
+        })
 );
 
-//============================================================ PASSPORT LOGIN =============================================================
+/**
+ * Passport login
+ */
 
 passport.use(
     'local-login',
     new LocalStrategy({
-        usernameField: 'username',
-        passwordField: 'password',
-        passReqToCallback: true
-    },
-    function(req,username, password, done){
-        connection.query("SELECT * FROM users WHERE username = ?", [username],
-        function(err, rows){
-            if(err)
-                return done(err);
-            if(!rows.length){
-                return done(null, false,req.flash('error', 'No User Found'));
-            }
-            if(!bcrypt.compareSync(password, rows[0].password))
-                return done(null, false, req.flash('error','Wrong Password'));
-            
-            return done(null, rows[0], req.flash('success', 'Login Successful'));
-        });
-    })
+            usernameField: 'username',
+            passwordField: 'password',
+            passReqToCallback: true
+        },
+        (req, username, password, done) => {
+            connection.query("SELECT * FROM users WHERE username = ?", [username],
+                (err, rows) => {
+                    if (err)
+                        return done(err);
+                    if (!rows.length) {
+                        return done(null, false, req.flash('error', 'No User Found'));
+                    }
+                    if (!bcrypt.compareSync(password, rows[0].password))
+                        return done(null, false, req.flash('error', 'Wrong Password'));
+
+                    return done(null, rows[0], req.flash('success', 'Login Successful'));
+                });
+        })
 );
 
 
-//=========================================================== INDEX PAGE ===================================================================
+/**
+ * Index Route - Returns all posts
+ */
 
-app.get("/", function(req, res){
+app.get("/", (req, res) => {
     res.redirect("/posts");
 });
 
-app.get("/posts", function(req, res) {
-    var q = "SELECT * FROM posts ORDER BY created_at DESC;";
-    connection.query(q, function(err, result) {
+app.get("/posts", (req, res) => {
+    const q = "SELECT * FROM posts ORDER BY created_at DESC;";
+    connection.query(q, (err, result) => {
         if (err) throw err;
-        res.render("index", { result: result});
+        res.render("index", {
+            result: result
+        });
     });
 });
 
-//========================================================= NEW POST PAGE ==================================================================
+/**
+ * New Post Route
+ */
 
-app.get("/posts/new", isloggedin,function(req, res){
+app.get("/posts/new", isloggedin, (req, res) => {
     res.render("new");
 });
 
-//========================================================== CREATE ROUTE ===================================================================
+/**
+ * Create Post Route
+ */
 
-app.post("/posts", isloggedin,function(req, res){
-    connection.query('INSERT INTO posts(title,image,body,user_id) VALUES(?,?,?,?)', [req.body.post.title, req.body.post.image, req.body.post.body, req.user.id], function(err, result){
-        if(err) throw err;
+app.post("/posts", isloggedin, (req, res) => {
+    connection.query('INSERT INTO posts(title,image,body,user_id) VALUES(?,?,?,?)', [req.body.post.title, req.body.post.image, req.body.post.body, req.user.id], (err, result) => {
+        if (err) throw err;
         res.redirect("/");
     });
 });
 
-//========================================================== COMMENT ROUTE ===================================================================
+/**
+ * Create Comment Route
+ * 
+ * @param id post id
+ */
 
-app.post("/posts/:id", isloggedin, function(req, res) {
-    connection.query("INSERT INTO comments(body,post_id,user_id) VALUES(?,?,?);", [req.body.comment.body, req.params.id, req.user.id], function(error, comment, fields) {
-        if (error) throw error;
+app.post("/posts/:id", isloggedin, (req, res) => {
+    connection.query("INSERT INTO comments(body,post_id,user_id) VALUES(?,?,?);", [req.body.comment.body, req.params.id, req.user.id], (err, result) => {
+        if (err) throw err;
         res.redirect("/posts/" + req.params.id);
     });
 });
 
 
 
-//=========================================================== SHOW ROUTE ===================================================================
+/**
+ * Show Post Route
+ * 
+ * @param id post id
+ */
 
-app.get("/posts/:id", function(req, res) {
+app.get("/posts/:id", (req, res) => {
 
     const q = "SELECT users.id,posts.id,title,username,posts.user_id,image,body,posts.created_at FROM users JOIN posts ON users.id=posts.user_id WHERE posts.id = " + req.params.id + ";";
     const q2 = "SELECT comments.user_id,posts.id,username,comments.id,comments.body,post_id,comments.created_at FROM comments JOIN users ON users.id = comments.user_id JOIN posts ON posts.id = comments.post_id WHERE post_id =" + req.params.id + ";";
-    connection.query(q + q2, function(err, post) {
+    connection.query(q + q2, (err, post) => {
         if (err) throw err;
-        res.render("show", { post: post[0][0], comment: post[1] });
+        res.render("show", {
+            post: post[0][0],
+            comment: post[1]
+        });
     });
 });
-//=========================================================== Edit ROUTE ===================================================================
 
-app.get("/posts/:id/edit", isloggedin, function(req, res) {
-    var q = "SELECT * FROM posts WHERE id = " + req.params.id;
+/**
+ * Edit Post Route
+ * 
+ * @param id post id
+ */
 
-    connection.query(q, function(err, post) {
+app.get("/posts/:id/edit", isloggedin, (req, res) => {
+    const q = "SELECT * FROM posts WHERE id = " + req.params.id;
+
+    connection.query(q, (err, post) => {
         if (err) throw err;
-        res.render("edit", { post: post[0] });
+        res.render("edit", {
+            post: post[0]
+        });
     });
 });
 
-//=========================================================== UPDATE ROUTE ===================================================================
+/**
+ * Update Post Route
+ * 
+ * @param id post id
+ */
 
-app.put("/posts/:id", isloggedin, function(req, res) {
-    var id = req.params.id;
-    connection.query("UPDATE posts SET title = ?, image = ? , body = ? WHERE id = ? ", [req.body.post.title, req.body.post.image, req.body.post.body, id], function(err, posts, fields) {
-        if (err) throw err;
-        res.redirect("/posts/" + req.params.id);
-    });
+app.put("/posts/:id", isloggedin, (req, res) => {
+    const id = req.params.id;
+    connection.query("UPDATE posts SET title = ?, image = ? , body = ? WHERE id = ? ", [req.body.post.title, req.body.post.image, req.body.post.body, id],
+        (err, posts, fields) => {
+            if (err) throw err;
+            res.redirect("/posts/" + req.params.id);
+        });
 });
 
-//=========================================================== DELETE ROUTE ===================================================================
+/**
+ * Delete Post Route
+ * 
+ * @param id post id
+ */
 
-app.delete("/posts/:id", function(req, res){
-    connection.query("DELETE FROM comments WHERE post_id = '" + req.params.id + "';DELETE FROM posts WHERE id = '" + req.params.id + "';", function(err, posts, fields) {
-        if(err) throw err;
-        res.redirect("/posts");
-    });
+app.delete("/posts/:id", (req, res) => {
+    connection.query("DELETE FROM comments WHERE post_id = '" + req.params.id + "';DELETE FROM posts WHERE id = '" + req.params.id + "';",
+        (err, posts, fields) => {
+            if (err) throw err;
+            res.redirect("/posts");
+        });
 });
 
-//=========================================================== COMMENT DELETE ROUTE ===================================================================
+/**
+ * Delete Post Route
+ * 
+ * @param id post id
+ * @param commentId comment id
+ */
 
-app.delete("/posts/:id/:commentId", function(req, res){
-    
-    connection.query("DELETE FROM comments WHERE id = " + req.params.commentId, function(err, posts, fields) {
-        if(err) throw err;
-        res.redirect("/posts/" + req.params.id);
-    });
+app.delete("/posts/:id/:commentId", (req, res) => {
+
+    connection.query("DELETE FROM comments WHERE id = " + req.params.commentId,
+        (err, posts, fields) => {
+            if (err) throw err;
+            res.redirect("/posts/" + req.params.id);
+        });
 });
 
 
 
-//============================================================ REGISTER PAGE =============================================================
+/**
+ * Sign Up Route
+ */
 
-app.get("/register", function(req, res){
-    res.render("register"); 
+app.get("/register", (req, res) => {
+    res.render("register");
 });
- 
 
-app.post("/register", passport.authenticate('local-signup',{
-    successRedirect : "/",
-    failureRedirect :"/register",
+
+app.post("/register", passport.authenticate('local-signup', {
+    successRedirect: "/",
+    failureRedirect: "/register",
     failureFlash: true
-}), function(req, res){
+}), (req, res) => {
 
 });
 
-//==================================================================== LOGIN PAGE =====================================================================
+/**
+ * Login Route
+ */
 
-app.get("/login", function(req, res){
-    res.render("login"); 
+app.get("/login", (req, res) => {
+    res.render("login");
 });
 
-app.post("/login", passport.authenticate("local-login", 
-{
+app.post("/login", passport.authenticate("local-login", {
     successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
-}), function(req, res){
-});
+}), (req, res) => {});
 
-//==================================================================== LOGOUT ROUTE ====================================================================
+/**
+ * Logout Route
+ */
 
-app.get("/logout", function(req, res){
+app.get("/logout", (req, res) => {
     req.logout();
     res.redirect("/");
 })
 
-//===================================================================== MIDDLEWARE =====================================================================
+/**
+ * Middleware
+ */
 
-function isloggedin(req, res, next){
-    if(req.isAuthenticated()){
+isloggedin((req, res, next) => {
+    if (req.isAuthenticated()) {
         next();
-    }else{
+    } else {
         res.redirect("/login");
     }
-}
+})
 
+const PORT = process.env.PORT || 3000;
 
-
-app.listen(3000, function(){
-    console.log("The Blog App Server Has Started");
-});
+app.listen(PORT, () => console.log(`The Blog App Has Started`));

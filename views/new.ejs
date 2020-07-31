@@ -1,21 +1,23 @@
 <%- include("partials/header") %>
 
-<div class="showcontainer my-4">
-    <h2 class="title">New Post</h2>
+<div class="showcontainer my-4 border">
+    <h2 class="title" style="margin-bottom: 15px;">New Post</h2>
     <form action="/posts" method="POST">
         <div class="form-group">
-            <label>Title</label>
+            <label class="strong">Title</label>
             <input class="form-control" type="text" name="post[title]" placeholder="Title">
         </div>
         <div class="form-group">
-            <label>Image</label>
-            <input class="form-control" type="text" name="post[image]" placeholder="Image">
+            <label class="strong">Image</label>
+            <input class="form-control" type="text" name="post[image]" placeholder="Image URL">
         </div>
         <div class="form-group">
-            <label>Blog Content</label>
+            <label class="strong">Blog Content</label>
             <textarea class="form-control" rows="5" name="post[body]"></textarea>
         </div>
-        <input class="ui violet big basic button" type="submit" >
+        <div class="right">
+            <input class="newpost" type="submit">
+        </div>
     </form>
 </div>
 

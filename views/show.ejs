@@ -15,47 +15,50 @@
         </p>
     </div>
     <% if ( currentUser && currentUser.id === post.user_id ) { %>
-        <div class="buttons">
-            <a href="/posts/<%= post.id %>/edit"><button class="editbtn">Edit Post</button></a>
-            <form id="delete" action="/posts/<%= post.id %>?_method=DELETE" method="POST">
-                <button class="deletebtn">Delete</button>
-            </form>
-        </div>
+    <div class="buttons">
+        <a href="/posts/<%= post.id %>/edit"><button class="editbtn">Edit Post</button></a>
+        <form id="delete" action="/posts/<%= post.id %>?_method=DELETE" method="POST">
+            <button class="deletebtn">Delete</button>
+        </form>
+    </div>
     <% } %>
     <div class="comments">
         <h4>Comments</h4>
         <% if(currentUser){ %>
-            <form class="commentform" action="/posts/<%= post.id %>" method="POST">
-              <div class="field">
+        <form class="commentform" action="/posts/<%= post.id %>" method="POST">
+            <div class="field">
                 <textarea name="comment[body]" placeholder="Leave your thoughts" rows="3"></textarea>
-              </div>
-              <div class="right">
+            </div>
+            <div class="right">
                 <button type="submit" class="replybtn">Reply</button>
-              </div>
-            </form>
+            </div>
+        </form>
         <% } %>
     </div>
     <% comment.forEach(function(comment){ %>
-        <div class="comment">
-            <h5 class="title"><%= comment.username %></h5>
-            <div class="commentbody"><%= comment.body %></div>
-            <div class="commentdate">
-                <%= comment.created_at.toDateString() %>
-                <span>
-                    <% if( currentUser && comment.user_id == currentUser.id ) { %>
-                    <form id="delete" action="/posts/<%= post.id %>/<%= comment.id %>?_method=DELETE" method="POST">
-                        <button class="replydeletebtn">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                              </svg>
-                        </button>
-                    </form>
-                    <% } %>
-                </span>
-            </div>
+    <div class="comment">
+        <h5 class="title"><%= comment.username %></h5>
+        <div class="commentbody"><%= comment.body %></div>
+        <div class="commentdate">
+            <%= comment.created_at.toDateString() %>
+            <span>
+                <% if( currentUser && comment.user_id == currentUser.id ) { %>
+                <form id="delete" action="/posts/<%= post.id %>/<%= comment.id %>?_method=DELETE" method="POST">
+                    <button class="replydeletebtn">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                            <path fill-rule="evenodd"
+                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                        </svg>
+                    </button>
+                </form>
+                <% } %>
+            </span>
         </div>
+    </div>
     <% }) %>
 </div>
- 
+
 <%- include("partials/footer") %>

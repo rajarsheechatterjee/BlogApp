@@ -25,9 +25,12 @@ body {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     margin-right: auto;
     margin-left: auto;
 }
+
 .newpost {
     background-color: rgba(3, 168, 124, 1);
     border-color: rgba(3, 168, 124, 1);
@@ -43,11 +46,12 @@ body {
     padding-right: 1em;
 }
 
-.newpost:focus{
+.newpost:focus {
     border: none;
     outline: none;
 }
-.newpost:hover{
+
+.newpost:hover {
     background-color: rgba(3, 168, 124, 0.9);
     border-color: rgba(3, 168, 124, 0.9);
 
@@ -86,6 +90,7 @@ img {
 .body {
     margin-top: 1.5rem;
     font-style: 18px;
+    line-height: 1.7;
 }
 
 #delete {
@@ -107,11 +112,12 @@ img {
     padding-right: 1em;
 }
 
-.editbtn:focus{
+.editbtn:focus {
     border: none;
     outline: none;
 }
-.editbtn:hover{
+
+.editbtn:hover {
     background-color: rgba(255, 220, 7, 1);
     border-color: rgba(255, 220, 7, 1);
 
@@ -132,11 +138,12 @@ img {
     padding-right: 1em;
 }
 
-.deletebtn:focus{
+.deletebtn:focus {
     border: none;
     outline: none;
 }
-.deletebtn:hover{
+
+.deletebtn:hover {
     background-color: rgba(202, 32, 85, 0.9);
     border-color: rgba(202, 32, 85, 0.9);
 
@@ -180,15 +187,16 @@ img {
     padding-right: 1em;
 }
 
-.comments .right{
+.right {
     text-align: right;
 }
 
-.replybtn:focus{
+.replybtn:focus {
     border: none;
     outline: none;
 }
-.replybtn:hover{
+
+.replybtn:hover {
     background-color: rgba(3, 168, 124, 0.9);
     border-color: rgba(3, 168, 124, 0.9));
 
@@ -226,18 +234,19 @@ img {
     padding-right: 1em;
 }
 
-.replydeletebtn:focus{
+.replydeletebtn:focus {
     border: none;
     outline: none;
 }
-.replydeletebtn:hover{
+
+.replydeletebtn:hover {
     background-color: rgba(202, 32, 85, 0.9);
     border-color: rgba(202, 32, 85, 0.9);
 
 }
 
 .alert {
-    margin-top: 2px; 
+    margin-top: 2px;
     margin-left: 5px;
     margin-right: 5px;
 }
@@ -269,12 +278,22 @@ img {
     line-height: 1.5;
 }
 
-.loginbtn:focus{
+.loginbtn:focus {
     border: none;
     outline: none;
 }
-.loginbtn:hover{
+
+.loginbtn:hover {
     background-color: rgba(3, 168, 124, 0.9);
     border-color: rgba(3, 168, 124, 0.9);
 
+}
+
+.strong {
+    font-style: italic;
+    font-weight: 600;
+}
+
+.border {
+    border-radius: 3px;
 }

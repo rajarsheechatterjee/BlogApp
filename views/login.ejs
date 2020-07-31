@@ -1,21 +1,21 @@
-<%- include("./partials/header") %> 
+<%- include("./partials/header") %>
 
 <div class="container">
     <div style="margin-top: 20px;">
         <% if(error && error.length > 0){ %>
-            <div class="alert alert-danger" role="alert" style="margin-top: 2px; margin-left: 5px;margin-right: 5px;">
-                <div class="header">
-                    <%= error %>
-                </div>
-             </div>
+        <div class="alert alert-danger" role="alert" style="margin-top: 2px; margin-left: 5px;margin-right: 5px;">
+            <div class="header">
+                <%= error %>
+            </div>
+        </div>
         <% } %>
         <% if(success && success.length > 0){ %>
-            <div class="alert alert-success" role="alert" style="margin-top: 2px;margin-left: 5px;margin-right: 5px;">
-                <div class="header">
-                  <%= success %>
-                </div>
+        <div class="alert alert-success" role="alert" style="margin-top: 2px;margin-left: 5px;margin-right: 5px;">
+            <div class="header">
+                <%= success %>
+            </div>
 
-              </div>
+        </div>
         <% } %>
     </div>
     <div class="loginform">
