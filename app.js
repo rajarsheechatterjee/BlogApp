@@ -177,7 +177,7 @@ app.post("/posts/:id", isloggedin, (req, res) => {
 
 app.get("/posts/:id", (req, res) => {
 
-    const q = "SELECT users.id,posts.id,title,username,posts.user_id,image,body,posts.created_at FROM users JOIN posts ON users.id=posts.user_id WHERE posts.id = " + req.params.id + ";";
+    const q = "SELECT users.id, posts.id, title, username, posts.user_id, image, body, posts.created_at FROM users JOIN posts ON users.id=posts.user_id WHERE posts.id = " + req.params.id + ";";
     const q2 = "SELECT comments.user_id,posts.id,username,comments.id,comments.body,post_id,comments.created_at FROM comments JOIN users ON users.id = comments.user_id JOIN posts ON posts.id = comments.post_id WHERE post_id =" + req.params.id + ";";
     connection.query(q + q2, (err, post) => {
         if (err) throw err;
@@ -244,9 +244,25 @@ app.delete("/posts/:id", (req, res) => {
 app.delete("/posts/:id/:commentId", (req, res) => {
 
     connection.query("DELETE FROM comments WHERE id = " + req.params.commentId,
-        (err, posts, fields) => {
+        (err, result) => {
             if (err) throw err;
             res.redirect("/posts/" + req.params.id);
+        });
+});
+
+/**
+ * User Profile Route
+ */
+
+app.get('/profile/:userID', isloggedin, (req, res) => {
+
+    q = "SELECT posts.title, posts.image, posts.body, posts.created_at, posts.user_id, posts.id, users.username FROM users JOIN posts on posts.user_id = users.id WHERE posts.user_id = " + req.params.userID + " ORDER BY created_at DESC;";
+    connection.query(q,
+        (err, posts) => {
+            if (err) throw err;
+            res.render('profile', {
+                result: posts
+            });
         });
 });
 
@@ -296,13 +312,13 @@ app.get("/logout", (req, res) => {
  * Middleware
  */
 
-isloggedin((req, res, next) => {
+function isloggedin(req, res, next) {
     if (req.isAuthenticated()) {
         next();
     } else {
         res.redirect("/login");
     }
-})
+}
 
 const PORT = process.env.PORT || 3000;
 

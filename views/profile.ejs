@@ -1,7 +1,10 @@
 <%- include("partials/header") %>
 
 <div class="container my-4">
-    <h3 class="explore title">Explore</h3>
+    <h4 class="explore2 title"><%= currentUser.username %>'s Profile</h4>
+    <div class="explore sml">
+        <div class="date"><em>Joined <%= currentUser.joined.toDateString() %></em></div>
+    </div>
     <% result.forEach(function(post){ %>
     <div class="card">
         <div class="row">
@@ -14,9 +17,7 @@
                 </div>
             </div>
             <div class="col-md-4 my-auto">
-                <div class="pd">
-                    <img class="rounded" src="<%= post.image %>" alt="Image">
-                </div>
+                <img class="pd" src="<%= post.image %>" alt="Image">
             </div>
             <% } else { %>
             <div class="col-md-12">

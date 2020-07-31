@@ -17,7 +17,15 @@ body {
 }
 
 .explore {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.explore2 {
+    margin-bottom: 2px;
+}
+
+.sml {
+    font-size: 15px;
 }
 
 .showcontainer {
@@ -63,7 +71,7 @@ body {
 }
 
 .card {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .date {
@@ -155,6 +163,12 @@ img {
     margin-top: 25px;
     margin-bottom: 25px;
     padding-top: 15px;
+}
+
+.pd {
+    padding-right: 1.25rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
 }
 
 .comments h4 {

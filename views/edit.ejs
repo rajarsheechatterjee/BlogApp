@@ -1,6 +1,6 @@
 <%- include("partials/header") %>
 
-<div class="showcontainer my-4 border">
+<div class="showcontainer my-4 bg-light border">
     <h2 class="title" style="margin-bottom: 15px;">Edit <%= post.title %></h2>
     <form action="/posts/<%= post.id %>?_method=PUT" method="POST">
         <div class="form-group">

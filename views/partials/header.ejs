@@ -43,7 +43,7 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/posts/new">
-                            <button class="newpost">New Post</button>
+                            <button class="newpost">Write</button>
                         </a>
                     </li>
                 </ul>
@@ -58,7 +58,8 @@
                         </li>
                         <% } else { %>
                         <li class="nav-item active">
-                            <a class="nav-link" href="/profile">Signed in as <%= currentUser.username %></a>
+                            <a class="nav-link" href="/profile/<%= currentUser.id%>">Signed in as
+                                <%= currentUser.username %></a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="/logout">Logout</a>
