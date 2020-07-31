@@ -1,35 +1,17 @@
 <%- include("partials/header") %>
 
-<div class="ui main text container">
-    <div class="ui huge header">Explore</div>
-    <div class="ui top attached segment">
-        <div class="ui divided items">
-            <% result.forEach(function(post){ %>
-                <div class="item">
-                    <div class="content">
-                        <a class="header" href="/posts/<%= post.id %>"><%= post.title %></a>
-                        <div class="meta">
-                            <span><%= post.created_at.toDateString() %></span>
-                        </div>
-                        <div class="description">
-                            <p><%= post.body.substring(0, 100) %>...</p>
-                        </div>
-                        <div class="extra">
-                            <a class="ui floated inverted violet button" href="/posts/<%= post.id %>">
-                                Read More
-                                <i class="right chevron icon"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <% if( post.image ){ %>
-                        <div class="image">
-                            <img src="<%= post.image %>">
-                        </div>
-                    <% } %>
-                </div>
-            <% }) %>
-        </div>
+<div class="showcontainer my-4">
+    <h3 class="explore title">Explore</h3>
+    <% result.forEach(function(post){ %>
+    <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"><%= post.title %></h4>
+                <p class="card-text"><%= post.body.substring(0, 150) %>...</p>
+                <a href="/posts/<%= post.id %>"><button class="newpost">Read More</button></a>
+              </div>
     </div>
+    <% }) %>
 </div>
+
 
 <%- include("partials/footer") %>

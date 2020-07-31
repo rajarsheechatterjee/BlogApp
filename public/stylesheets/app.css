@@ -1,12 +1,280 @@
+body {
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.title {
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 900;
+}
+
+.card-title {
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 700;
+}
+
+.bg-light {
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+}
+
+.explore {
+    margin-bottom: 15px;
+}
+
+.showcontainer {
+    max-width: 780px;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.newpost {
+    background-color: rgba(3, 168, 124, 1);
+    border-color: rgba(3, 168, 124, 1);
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    color: white;
+    font-weight: 400;
+    display: inline-block;
+    height: 36px;
+    font-size: 16px;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.newpost:focus{
+    border: none;
+    outline: none;
+}
+.newpost:hover{
+    background-color: rgba(3, 168, 124, 0.9);
+    border-color: rgba(3, 168, 124, 0.9);
+
+}
+
 .container.main {
-    margin-top: 7.0em;
+    margin-top: 4.0em;
+    margin-bottom: 4.0em;
+}
+
+.card {
+    margin-bottom: 5px;
+}
+
+.date {
+    color: rgba(117, 117, 117, 1);
+    font-size: 15px;
+}
+
+.name {
+    font-size: 15px;
+    margin-bottom: 1rem;
+}
+
+.rounded {
+    border-radius: 0.25rem !important;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    display: block;
+}
+
+.body {
+    margin-top: 1.5rem;
+    font-style: 18px;
 }
 
 #delete {
     display: inline;
 }
 
-.column {
-    max-width: 450px;
-    margin-top: 10%;
+.editbtn {
+    background-color: rgba(255, 193, 7, 1);
+    border-color: rgba(255, 193, 7, 1);
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    color: white;
+    font-weight: 400;
+    display: inline-block;
+    height: 36px;
+    font-size: 16px;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.editbtn:focus{
+    border: none;
+    outline: none;
+}
+.editbtn:hover{
+    background-color: rgba(255, 220, 7, 1);
+    border-color: rgba(255, 220, 7, 1);
+
+}
+
+.deletebtn {
+    background-color: rgb(202, 32, 85);
+    border-color: rgb(202, 32, 85);
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    color: white;
+    font-weight: 400;
+    display: inline-block;
+    height: 36px;
+    font-size: 16px;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.deletebtn:focus{
+    border: none;
+    outline: none;
+}
+.deletebtn:hover{
+    background-color: rgba(202, 32, 85, 0.9);
+    border-color: rgba(202, 32, 85, 0.9);
+
+}
+
+.comments {
+    border-top: 1px solid rgba(230, 230, 230, 1);
+    border-bottom: 1px solid rgba(230, 230, 230, 1);
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding-top: 15px;
+}
+
+.comments h4 {
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.commentform textarea {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+}
+
+.replybtn {
+    background-color: rgba(3, 168, 124, 1);
+    border-color: rgba(3, 168, 124, 1);
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    color: white;
+    font-weight: 400;
+    display: inline-block;
+    height: 36px;
+    font-size: 16px;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.comments .right{
+    text-align: right;
+}
+
+.replybtn:focus{
+    border: none;
+    outline: none;
+}
+.replybtn:hover{
+    background-color: rgba(3, 168, 124, 0.9);
+    border-color: rgba(3, 168, 124, 0.9));
+
+}
+
+.comment {
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(230, 230, 230, 1);
+}
+
+.commentdate {
+    color: rgba(117, 117, 117, 1);
+    font-size: 13px;
+    margin-top: 0.5rem;
+    font-style: italic;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.replydeletebtn {
+    background-color: rgb(202, 32, 85);
+    border-color: rgb(202, 32, 85);
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    color: white;
+    font-weight: 400;
+    display: inline-block;
+    font-size: 14px;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.replydeletebtn:focus{
+    border: none;
+    outline: none;
+}
+.replydeletebtn:hover{
+    background-color: rgba(202, 32, 85, 0.9);
+    border-color: rgba(202, 32, 85, 0.9);
+
+}
+
+.alert {
+    margin-top: 2px; 
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.loginform {
+    text-align: center;
+}
+
+.middle {
+    margin-top: 160px;
+}
+
+.loginbtn {
+    background-color: rgba(3, 168, 124, 1);
+    border-color: rgba(3, 168, 124, 1);
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    color: white;
+    font-weight: 400;
+    display: inline-block;
+    font-size: 16px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1em;
+    padding-right: 1em;
+    width: 100%;
+    vertical-align: middle;
+    line-height: 1.5;
+}
+
+.loginbtn:focus{
+    border: none;
+    outline: none;
+}
+.loginbtn:hover{
+    background-color: rgba(3, 168, 124, 0.9);
+    border-color: rgba(3, 168, 124, 0.9);
+
 }

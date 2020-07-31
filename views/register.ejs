@@ -1,54 +1,42 @@
 <%- include("./partials/header") %>
 
-<div class="ui middle aligned center aligned grid" id="login">
-    <div class="column">
-        <div style="margin-top: 50px;">
-            <% if(error && error.length > 0){ %>
-                <div class="ui negative message" style="margin-top: 2px; margin-left: 5px;margin-right: 5px;">
-                    <div class="header">
-                        <%= error %>
-                    </div>
-                 </div>
-            <% } %>
-            <% if(success && success.length > 0){ %>
-                <div class="ui success message" style="margin-top: 2px;margin-left: 5px;margin-right: 5px;">
-                    <div class="header">
-                      <%= success %>
-                    </div>
-                    
-                  </div>
-            <% } %>
-        </div>
-        <h2 class="ui image header">
-            <div class="content">Sign-Up to register</div>
-        </h2>
-        <form class="ui large form" action="/register" method="POST">
-            <div class="ui stacked segment">
-                <div class="field">
-                    <div class="ui left icon input">
-                        <i class="user icon"></i>
-                        <input type="text" name="username" placeholder="Username">
-                    </div>
+<div class="container">
+    <div style="margin-top: 20px;">
+        <% if(error && error.length > 0){ %>
+            <div class="alert alert-danger" role="alert" style="margin-top: 2px; margin-left: 5px;margin-right: 5px;">
+                <div class="header">
+                    <%= error %>
                 </div>
-                <div class="field">
-                    <div class="ui left icon input">
-                        <i class="lock icon"></i>
-                        <input type="password" name="password" placeholder="Password">
-                    </div>
+             </div>
+        <% } %>
+        <% if(success && success.length > 0){ %>
+            <div class="alert alert-success" role="alert" style="margin-top: 2px;margin-left: 5px;margin-right: 5px;">
+                <div class="header">
+                  <%= success %>
                 </div>
-                <input  class="ui fluid large teal button submit" type="submit" value="Sign-up">
-                
-                <div class="ui error meassage"></div>
-            </div>
-        </form>
-        <div class="ui message">
-            Already have an account?
-            <a href="/login">Login</a>
-        </div>
 
+              </div>
+        <% } %>
     </div>
-
-</div>     
-
+    <div class="loginform">
+        <h1 class="title middle">Create An Account</h1>
+        <div style="width:40%; margin:25px auto;">
+            <form action="/register" method="POST">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <input class="loginbtn" type="submit" value="Sign Up">
+                </div>
+                <a href="/login">Already have an account?</a>
+                <br>
+                <a href="/posts">Go Back</a>
+            </form>
+        </div>
+    </div>
+</div>
 
 <%- include("./partials/footer") %>
