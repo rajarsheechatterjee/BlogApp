@@ -49,7 +49,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
     connection.query("SELECT * FROM users WHERE id = ?", [id],
         (err, rows) => {
-            done(err, rows[0]);
+            done(null, rows[0]);
         });
 });
 
@@ -235,7 +235,7 @@ app.delete("/posts/:id", (req, res) => {
 });
 
 /**
- * Delete Post Route
+ * Delete Comment Route
  * 
  * @param id post id
  * @param commentId comment id
@@ -252,6 +252,8 @@ app.delete("/posts/:id/:commentId", (req, res) => {
 
 /**
  * User Profile Route
+ * 
+ * @param userID user id
  */
 
 app.get('/profile/:userID', isloggedin, (req, res) => {
@@ -266,7 +268,20 @@ app.get('/profile/:userID', isloggedin, (req, res) => {
         });
 });
 
+/**
+ * Delete User Profile Route
+ * 
+ * @param userId user id
+ */
 
+app.delete("/profile/:id", (req, res) => {
+    connection.query("DELETE FROM comments WHERE user_id = '" + req.params.id + "';DELETE FROM posts WHERE user_id = '" + req.params.id + "';DELETE FROM users WHERE id = '" + req.params.id + "';",
+        (err, posts, fields) => {
+            if (err) throw err;
+            req.logout();
+            res.redirect("/posts");
+        });
+});
 
 /**
  * Sign Up Route

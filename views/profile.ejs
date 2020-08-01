@@ -3,7 +3,16 @@
 <div class="container my-4">
     <h4 class="explore2 title"><%= currentUser.username %>'s Profile</h4>
     <div class="explore sml">
-        <div class="date"><em>Joined <%= currentUser.joined.toDateString() %></em></div>
+        <div class="commentdate">
+            Joined <%= currentUser.joined.toDateString() %>
+            <span>
+                <form id="delete" action="/profile/<%= currentUser.id %>?_method=DELETE" method="POST">
+                    <button class="replydeletebtn">
+                        Delete Account
+                    </button>
+                </form>
+            </span>
+        </div>
     </div>
     <% result.forEach(function(post){ %>
     <div class="card">
