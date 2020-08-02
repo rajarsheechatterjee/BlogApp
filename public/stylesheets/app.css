@@ -101,6 +101,10 @@ img {
     line-height: 1.7;
 }
 
+.dropdown-item:active {
+    background-color: rgba(3, 168, 124, 1) !important;
+}
+
 #delete {
     display: inline;
 }
@@ -257,6 +261,32 @@ img {
     background-color: rgba(202, 32, 85, 0.9);
     border-color: rgba(202, 32, 85, 0.9);
 
+}
+
+.replyeditbtn {
+    background-color: rgba(255, 193, 7, 1);
+    border-color: rgba(255, 193, 7, 1);
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    color: white;
+    font-weight: 400;
+    display: inline-block;
+    font-size: 14px;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.replyeditbtn:focus {
+    border: none;
+    outline: none;
+}
+
+.replyeditbtn:hover {
+    background-color: rgba(255, 220, 7, 1);
+    border-color: rgba(255, 220, 7, 1);
 }
 
 .alert {

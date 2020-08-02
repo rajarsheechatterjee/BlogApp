@@ -221,6 +221,43 @@ app.put("/posts/:id", isloggedin, (req, res) => {
 });
 
 /**
+ * Edit Comment Route
+ * 
+ * @param id post id
+ * @param commentId comment id
+ */
+
+app.get("/posts/:id/:commentId/edit", (req, res) => {
+
+    const q = "SELECT users.id, posts.id, title, username, posts.user_id, image, body, posts.created_at FROM users JOIN posts ON users.id=posts.user_id WHERE posts.id = " + req.params.id + ";";
+    const q2 = "SELECT comments.user_id,posts.id,username,comments.id,comments.body,post_id,comments.created_at FROM comments JOIN users ON users.id = comments.user_id JOIN posts ON posts.id = comments.post_id WHERE post_id =" + req.params.id + ";";
+    connection.query(q + q2, (err, post) => {
+        if (err) throw err;
+        res.render("editcomment", {
+            post: post[0][0],
+            comment: post[1],
+            commentId: req.params.commentId
+        });
+    });
+});
+
+/**
+ * Update Comment Route
+ * 
+ * @param id post id
+ * @param commentId comment id
+ */
+
+app.put("/posts/:id/:commentId", isloggedin, (req, res) => {
+    const id = req.params.id;
+    connection.query("UPDATE comments SET body = ? WHERE id = ? ", [req.body.comment.body, req.params.commentId],
+        (err, posts, fields) => {
+            if (err) throw err;
+            res.redirect("/posts/" + req.params.id);
+        });
+});
+
+/**
  * Delete Post Route
  * 
  * @param id post id
