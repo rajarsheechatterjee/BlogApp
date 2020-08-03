@@ -53,6 +53,8 @@
                                 d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z" />
                         </svg>
                     </button>
+                </form>
+                <form id="delete" action="/posts/<%= post.id %>/<%= comment.id %>?_method=DELETE" method="POST">
                     <button class="replydeletebtn">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">

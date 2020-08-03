@@ -227,11 +227,12 @@ app.put("/posts/:id", isloggedin, (req, res) => {
  * @param commentId comment id
  */
 
-app.get("/posts/:id/:commentId/edit", (req, res) => {
+app.get("/posts/:id/:commentId/edit", isloggedin, (req, res) => {
 
     const q = "SELECT users.id, posts.id, title, username, posts.user_id, image, body, posts.created_at FROM users JOIN posts ON users.id=posts.user_id WHERE posts.id = " + req.params.id + ";";
-    const q2 = "SELECT comments.user_id,posts.id,username,comments.id,comments.body,post_id,comments.created_at FROM comments JOIN users ON users.id = comments.user_id JOIN posts ON posts.id = comments.post_id WHERE post_id =" + req.params.id + ";";
-    connection.query(q + q2, (err, post) => {
+    const q1 = "SELECT comments.user_id,posts.id,username,comments.id,comments.body,post_id,comments.created_at FROM comments JOIN users ON users.id = comments.user_id JOIN posts ON posts.id = comments.post_id WHERE post_id =" + req.params.id + ";";
+
+    connection.query(q + q1, (err, post) => {
         if (err) throw err;
         res.render("editcomment", {
             post: post[0][0],
@@ -290,12 +291,12 @@ app.delete("/posts/:id/:commentId", (req, res) => {
 /**
  * User Profile Route
  * 
- * @param userID user id
+ * @param userId user id
  */
 
-app.get('/profile/:userID', isloggedin, (req, res) => {
+app.get('/profile/:userId', isloggedin, (req, res) => {
 
-    q = "SELECT posts.title, posts.image, posts.body, posts.created_at, posts.user_id, posts.id, users.username FROM users JOIN posts on posts.user_id = users.id WHERE posts.user_id = " + req.params.userID + " ORDER BY created_at DESC;";
+    q = "SELECT posts.title, posts.image, posts.body, posts.created_at, posts.user_id, posts.id, users.username FROM users JOIN posts on posts.user_id = users.id WHERE posts.user_id = " + req.params.userId + " ORDER BY created_at DESC;";
     connection.query(q,
         (err, posts) => {
             if (err) throw err;
