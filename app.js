@@ -322,6 +322,27 @@ app.delete("/profile/:id", (req, res) => {
 });
 
 /**
+ * Search Route
+ */
+
+app.get('/search', function (req, res) {
+    var str = {
+        stringPart: req.query.search
+    };
+
+    connection.query('SELECT * FROM posts WHERE posts.title LIKE "%' + str.stringPart + '%"', function (err, rows, fields) {
+        if (err) throw err;
+        var posts = [];
+        for (i = 0; i < rows.length; i++) {
+            posts.push(rows[i]);
+        }
+        res.render('search', {
+            posts: posts
+        });
+    });
+});
+
+/**
  * Sign Up Route
  */
 
