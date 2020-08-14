@@ -25,7 +25,7 @@ To get a local copy up and running follow these simple example steps.
 3. Start the server -
 
     ```
-    npm app (run the server)
+    node app (run the server)
     ```
 
 #### Images:
